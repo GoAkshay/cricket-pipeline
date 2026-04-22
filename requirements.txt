@@ -1,0 +1,2 @@
+astronomer-cosmos==1.14.0
+apache-airflow-providers-snowflake

@@ -1,0 +1,27 @@
+version: 2
+
+models:
+    - name: silver_teams
+      columns:
+        - name: team_name
+          tests: 
+            - unique
+            - not_null
+
+    - name: silver_players
+      columns:
+        - name: team_name
+          tests:
+            - not_null
+            - relationships:
+                arguments:
+                    to: ref('silver_teams')
+                    field: team_name
+
+    - name: silver_match_info
+      columns:
+        - name: file_name
+          tests:
+            - unique
+            - not_null
+
