@@ -1,6 +1,5 @@
 from airflow.sdk import DAG
 from datetime import datetime, timedelta
-# The correct import!
 from airflow.providers.common.sql.sensors.sql import SqlSensor
 from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig, RenderConfig
 from cosmos.profiles import SnowflakeUserPasswordProfileMapping
@@ -35,7 +34,7 @@ with DAG(
     # 1. THE ASYNC SENSOR: Uses the standard SqlSensor with deferrable=True
     wait_for_snowpipe_data = SqlSensor(
         task_id='wait_for_new_cricket_data',
-        conn_id='snowflake_default', # Note: It is conn_id here, not snowflake_conn_id
+        conn_id='snowflake_default',
         sql="""
 EXECUTE IMMEDIATE $$
             BEGIN
@@ -57,7 +56,7 @@ EXECUTE IMMEDIATE $$
         poke_interval=300, # 5 minutes
         timeout=60 * 60 * 2, # 24 hours
         mode='reschedule',
-        soft_fail=True # Fails gracefully without red alarms if no data arrives
+        soft_fail=True
     )
 
     # 2. THE TRANSFORM: Execute the incremental dbt models
