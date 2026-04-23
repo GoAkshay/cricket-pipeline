@@ -71,8 +71,7 @@ EXECUTE IMMEDIATE $$
 		"install_deps": True,
 		"full_refresh": "{{ dag_run.conf.get('full_refresh', False) }}",
 	},
-        default_args={"command_name": "build"},
-        render_config=RenderConfig(load_method=LoadMode.DBT_LS)
+        default_args={"command_name": "build"}
     )
 
     wait_for_snowpipe_data >> dbt_models_group
